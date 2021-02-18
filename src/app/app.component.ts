@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
+// メタデータを指定するデコレータ
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-root', // コンポーネントのCSS要素セクター
+  templateUrl: './app.component.html', // テンプレートHTMLのパス
+  styleUrls: ['./app.component.css'] // コンポーネント独自のCSS
 })
 export class AppComponent {
-  title = 'angular-tour-of-heroes';
+  title = 'Tour of Heroes';
 }
