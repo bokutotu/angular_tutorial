@@ -1,33 +1,45 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { messages_map } from './message_store';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+
+import { Message } from './message';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PersonalMessageService {
-
-  messages = messages_map;
+  
+  messages: Message[] = [
+    {id:11, messages:["hoge"]},
+    {id:12, messages:["hoge"]},
+    {id:13, messages:["hoge"]},
+    {id:14, messages:["hoge"]},
+    {id:15, messages:["hoge"]},
+    {id:16, messages:["hoge"]},
+    {id:17, messages:["hoge"]},
+    {id:18, messages:["hoge"]},
+    {id:19, messages:["hoge"]},
+    {id:20, messages:["hoge"]},
+  ];
 
   constructor() { }
 
-  getMessage(id: number): string[] {
-    if (id in this.messages.keys()) {
-      return this.messages.get(id);
-    } else {
-      return [] as string[];
+  getMessages(id: number): string[] {
+    for (let i = 0; i < this.messages.length; i++) {
+      let _item = this.messages[i];
+      if (_item.id == id) {
+        return _item.messages;
+      }
     }
+
+    return [] as string[];
   }
 
   sendMessage(id: number, message: string): void {
-    if ( id in this.messages.keys() ) {
-      let message_array: Array<string> = this.messages.get(id);
-      message_array.push(message);
-      this.messages.delete(id);
-      this.messages.set(id, message_array);
-    } else {
-      this.messages.set(id, [message]);
-    }
+    console.log("id", id, "input message", message);
   }
 
 }

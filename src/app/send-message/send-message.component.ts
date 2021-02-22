@@ -25,7 +25,6 @@ export class SendMessageComponent implements OnInit {
   }
 
   hero: Hero
-  id: number;
 
   form = this.fromBuilder.group({
     message:'Message',
@@ -33,7 +32,7 @@ export class SendMessageComponent implements OnInit {
 
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.id = id;
+    // this.id = id;
     this.heroService.getHero(id)
       .subscribe(hero => this.hero = hero);
   }
@@ -41,7 +40,7 @@ export class SendMessageComponent implements OnInit {
   onSubmit(): void {
     const { message }= this.form.value;
     console.log(message);
-    this.personalMessage.sendMessage(this.id, message);
+    this.personalMessage.sendMessage(this.hero.id, message);
   }
 
 }

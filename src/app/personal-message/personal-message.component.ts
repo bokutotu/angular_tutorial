@@ -22,15 +22,21 @@ export class PersonalMessageComponent implements OnInit {
 
   hero: Hero;
   id: number;
+  
+  message: string[];
 
   ngOnInit(): void {
     this.getHero();
-    this.messages = this.personalMessage.getMessage(this.id);
+  }
+
+  getMessages(id): void {
+    this.messages = this.personalMessage.getMessages(id);
+    console.log(this.messages);
   }
 
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.id = id;
+    this.getMessages(id);
     this.heroService.getHero(id)
       .subscribe(hero => this.hero = hero);
   }
