@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
@@ -12,7 +13,10 @@ export class HeroesComponent implements OnInit {
 
   heroes: Hero[];
 
-  constructor(private heroService: HeroService) {}
+  constructor(
+    private heroService: HeroService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void { // ライフサイクルフック
     this.getHeroes()
@@ -36,6 +40,10 @@ export class HeroesComponent implements OnInit {
   delete(hero: Hero): void {
     this.heroes = this.heroes.filter(h => h !== hero);
     this.heroService.deleteHero(hero).subscribe();
+  }
+
+  sendMessage(hero: Hero): void {
+    this.router.navigate([`/message/${hero.id}`]);
   }
 
 }

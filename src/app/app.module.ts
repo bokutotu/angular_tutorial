@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroesComponent } from './heroes/heroes.component';
 import { MessagesComponent } from './messages/messages.component';
+import { PersonalMessageComponent } from './personal-message/personal-message.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -15,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
+import { SendMessageComponent } from './send-message/send-message.component';
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import { HeroSearchComponent } from './hero-search/hero-search.component';
     // Remove it when a real server is ready to receive requests.
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
-    )
+    ),
+    ReactiveFormsModule,
   ],
    declarations: [
     AppComponent,
@@ -38,6 +41,8 @@ import { HeroSearchComponent } from './hero-search/hero-search.component';
     HeroDetailComponent,
     MessagesComponent,
     HeroSearchComponent,
+    PersonalMessageComponent,
+    SendMessageComponent,
   ],
  providers: [],
   bootstrap: [AppComponent]

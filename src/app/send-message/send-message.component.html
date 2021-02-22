@@ -1,0 +1,8 @@
+<h2>Please Write Message to {{ hero.name | uppercase }}</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="message">Name</label>
+    <input id="message" type="text" formControlName="message">
+  </div>
+  <button type="submit">send</button>
+</form>
