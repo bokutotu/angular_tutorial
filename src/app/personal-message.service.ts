@@ -12,30 +12,63 @@ import { Message } from './message';
 })
 export class PersonalMessageService {
   
-  messages: Message[] = [
-    {id:11, messages:["hoge"]},
-    {id:12, messages:["hoge"]},
-    {id:13, messages:["hoge"]},
-    {id:14, messages:["hoge"]},
-    {id:15, messages:["hoge"]},
-    {id:16, messages:["hoge"]},
-    {id:17, messages:["hoge"]},
-    {id:18, messages:["hoge"]},
-    {id:19, messages:["hoge"]},
-    {id:20, messages:["hoge"]},
-  ];
+  private messagesUrl = 'api/messages';
 
-  constructor() { }
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
-  getMessages(id: number): string[] {
-    for (let i = 0; i < this.messages.length; i++) {
-      let _item = this.messages[i];
-      if (_item.id == id) {
-        return _item.messages;
-      }
-    }
+  constructor(
+    private http: HttpClient,
+  ) { }
 
-    return [] as string[];
+  getmessages(): observable<Message[]>  {
+    return this.http.get<Message[]>(this.messagesUrl)
+      .pipe(
+        tap(messages => console.log('fetched heroes')),
+        catchError(this.handleError<Message[]>('getheroes', []))
+      );
+  }
+
+  getMessagesId<data>(id: number): Observable<Message> {
+    const url = `${this.messagesUrl}/?id=${id}`;
+    // const url = `this.messagesurl/${id}`;
+    // console.log("this is personal-message service and request url is ", url);
+    return this.http.get<Message[]>(url)
+      .pipe(
+        map(messages => messages[0]),
+        tap(h => {
+          const outcome = h ? `fetched` : `did not find`;
+          // this.log(`${outcome} hero id=${id}`);
+        }),
+        catchError(this.handleError<message>(`getmessagesno404 id=${id}` ))
+      );
+  }
+
+  updateMessagesId(heroMessage: Message, newMessage: string): Observable<any> {
+
+    let updatedMessage: Message = {id: heroMessage.id,
+      messages: heroMessage.messages.concat([newMessage]) 
+    };
+
+    return this.http.put(this.messagesUrl, updatedMessage, this.httpOptions).pipe(
+      tap(_ => console.log("update message")),
+      catchError(this.handleError<Message>('update Message'))
+    )
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: リモート上のロギング基盤にエラーを送信する
+      console.error(error); // かわりにconsoleに出力
+
+      // TODO: ユーザーへの開示のためにエラーの変換処理を改善する
+      // this.log(`${operation} failed: ${error.message}`);
+
+      // 空の結果を返して、アプリを持続可能にする
+      return of(result as T);
+    };
   }
 
   sendMessage(id: number, message: string): void {

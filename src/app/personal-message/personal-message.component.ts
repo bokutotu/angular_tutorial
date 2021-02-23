@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import {PersonalMessageService} from '../personal-message.service';
 import { HeroService } from '../hero.service';
 import {Hero} from '../hero';
+import { Message } from '../message';
 
 @Component({
   selector: 'app-personal-message',
@@ -18,10 +19,9 @@ export class PersonalMessageComponent implements OnInit {
     private heroService: HeroService,
   ) { }
 
-  messages: string[];
+  messages: Message[];
 
   hero: Hero;
-  id: number;
   
   message: string[];
 
@@ -29,14 +29,26 @@ export class PersonalMessageComponent implements OnInit {
     this.getHero();
   }
 
-  getMessages(id): void {
-    this.messages = this.personalMessage.getMessages(id);
+  getMessages(): void {
+    this.personalMessage.getMessages()
+      .subscribe(
+        messages => {
+          this.messages = messages;
+        });
     console.log(this.messages);
+  }
+
+  getMessagesById(id): void {
+    this.personalMessage.getMessagesId(id)
+      .subscribe(
+        messages => this.messages = [messages]
+      );
   }
 
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.getMessages(id);
+    // this.getMessages(id);
+    this.getMessagesById(id);
     this.heroService.getHero(id)
       .subscribe(hero => this.hero = hero);
   }

@@ -22,7 +22,7 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     const messages: Message[] = [
-      {id:11, messages:["hoge"]},
+      {id:11, messages:["hoge", "hoge"]},
       {id:12, messages:["hoge"]},
       {id:13, messages:["hoge"]},
       {id:14, messages:["hoge"]},

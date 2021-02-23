@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PersonalMessageService } from '../personal-message.service';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
+import { Message } from '../message';
 
 @Component({
   selector: 'app-send-message',
@@ -25,14 +26,21 @@ export class SendMessageComponent implements OnInit {
   }
 
   hero: Hero
+  
+  message: Message;
 
   form = this.fromBuilder.group({
     message:'Message',
   });
 
+  getMessagesById(id: number): void {
+    this.personalMessage.getMessagesId(id)
+      .subscribe(messages => this.message = messages);
+  }
+
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    // this.id = id;
+    this.getMessagesById(id);
     this.heroService.getHero(id)
       .subscribe(hero => this.hero = hero);
   }
@@ -40,7 +48,7 @@ export class SendMessageComponent implements OnInit {
   onSubmit(): void {
     const { message }= this.form.value;
     console.log(message);
-    this.personalMessage.sendMessage(this.hero.id, message);
+    this.personalMessage.updateMessagesId(this.message, message).subscribe();
   }
 
 }

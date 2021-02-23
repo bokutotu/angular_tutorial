@@ -1,3 +1,4 @@
+<div *ngIf="hero">
 <h2>Please Write Message to {{ hero.name | uppercase }}</h2>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div>
@@ -6,3 +7,4 @@
   </div>
   <button type="submit">send</button>
 </form>
+</div>
